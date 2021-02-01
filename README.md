@@ -11,5 +11,6 @@ Implementados os endpoints para:
 <ul>
   <li>Create</li>
   <li>Read</li>
+  <li>Update</li>
   <li>Delete</li>
 </ul>
