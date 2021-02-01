@@ -4,9 +4,11 @@ import com.mauricio.SpringAPI.Model.Cliente;
 import com.mauricio.SpringAPI.Repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -44,5 +46,17 @@ public class ClienteController {
             return "Cliente " + cliente.get().getNome() + " deletado com sucesso!";
         }
         return "Cliente não encontrado!";
+    }
+
+    @PutMapping("/atualizar/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> atualizarCliente(@RequestBody Cliente cliente, @PathVariable long id) {
+        try {
+            Cliente clienteExiste = clienteRepository.getOne(id);
+            clienteRepository.save(cliente);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
